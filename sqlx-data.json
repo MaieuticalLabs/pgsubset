@@ -1,0 +1,83 @@
+{
+  "db": "PostgreSQL",
+  "3784ef1f97aacb250a6dfeeab5f5601793ecc5585ae09b2ee213899336e9d66e": {
+    "query": "\nSELECT\nx.table_name as source_table,\nx.column_name as source_column,\ny.table_name as dest_table,\ny.column_name as dest_column\nFROM information_schema.referential_constraints c\nJOIN information_schema.key_column_usage x on x.constraint_name = c.constraint_name\nJOIN information_schema.key_column_usage y on y.ordinal_position = x.position_in_unique_constraint\nAND y.constraint_name = c.unique_constraint_name",
+    "describe": {
+      "columns": [
+        {
+          "ordinal": 0,
+          "name": "source_table",
+          "type_info": "Name"
+        },
+        {
+          "ordinal": 1,
+          "name": "source_column",
+          "type_info": "Name"
+        },
+        {
+          "ordinal": 2,
+          "name": "dest_table",
+          "type_info": "Name"
+        },
+        {
+          "ordinal": 3,
+          "name": "dest_column",
+          "type_info": "Name"
+        }
+      ],
+      "parameters": {
+        "Left": []
+      },
+      "nullable": [
+        true,
+        true,
+        true,
+        true
+      ]
+    }
+  },
+  "5cf22a005d2043b3601031988a679a54e7c6760c44ede4ba448de2c24d28d203": {
+    "query": "\nSELECT a.attname AS column_name,\ns.relname AS sequence_name\nFROM pg_class AS t\nJOIN pg_attribute AS a\nON a.attrelid = t.oid\nJOIN pg_depend AS d\nON d.refobjid = t.oid\n AND d.refobjsubid = a.attnum\nJOIN pg_class AS s\nON s.oid = d.objid\nWHERE d.classid = 'pg_catalog.pg_class'::regclass\nAND d.refclassid = 'pg_catalog.pg_class'::regclass\nAND t.relkind IN ('r', 'P')\nAND s.relkind = 'S'\nAND t.relname = $1",
+    "describe": {
+      "columns": [
+        {
+          "ordinal": 0,
+          "name": "column_name",
+          "type_info": "Name"
+        },
+        {
+          "ordinal": 1,
+          "name": "sequence_name",
+          "type_info": "Name"
+        }
+      ],
+      "parameters": {
+        "Left": [
+          "Name"
+        ]
+      },
+      "nullable": [
+        false,
+        false
+      ]
+    }
+  },
+  "b3bd349c7dc08e114cc76bb8b441d904f106a67342e9226305fd749ac762980a": {
+    "query": "\nSELECT cls.relname as name\nFROM pg_class cls\nJOIN pg_namespace nsp ON nsp.oid = cls.relnamespace\nWHERE nsp.nspname NOT IN ('information_schema', 'pg_catalog')\nAND cls.relkind = 'r'",
+    "describe": {
+      "columns": [
+        {
+          "ordinal": 0,
+          "name": "name",
+          "type_info": "Name"
+        }
+      ],
+      "parameters": {
+        "Left": []
+      },
+      "nullable": [
+        true
+      ]
+    }
+  }
+}

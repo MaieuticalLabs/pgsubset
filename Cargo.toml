@@ -1,0 +1,35 @@
+[package]
+name = "pgsubset"
+description = "Utility to export a referentially intact subset of a Postgres Database and re-import to another location. "
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "pgsubset"
+path = "src/main.rs"
+
+[lib]
+name = "pgsubset"
+path = "src/lib.rs"
+
+[dependencies]
+env_logger = "0.9.0"
+serde = { version = "1.0", features = ["derive"] }
+anyhow = "1.0"
+toml = "0.5"
+sqlx = { version = "0.5", features = [ "runtime-tokio-native-tls" , "postgres", "offline" ] }
+futures = "0.3"
+tokio = { version = "1", features = ["full"] }
+petgraph = "0.6.0"
+clap = { version = "3.0.13", features = ["derive"] }
+regex = "1.5.4"
+fake = { version = "2.4"}
+
+[dev-dependencies]
+sqlx-database-tester = { version = "0.2.0", features = ["runtime-tokio"] }
+
+[profile.release]
+opt-level = 'z'
+lto = true
+panic = 'abort'

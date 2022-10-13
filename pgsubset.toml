@@ -1,0 +1,13 @@
+database_url="postgres://postgres:password@localhost:5432/postgres"
+target_table = "target_table"
+target_dir = "csv"
+
+[transforms]
+user.last_name = "last_name_en"
+user.email = "email_en"
+user.username = "username_en"
+user.password = "django_garbage_password"
+
+[[m2m_tables]]
+name = "m2m_table"
+source = "source_table"
